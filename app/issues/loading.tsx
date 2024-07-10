@@ -1,9 +1,7 @@
+import { Skeleton } from "@/app/components";
 import { Table, TableColumnHeaderCell } from "@radix-ui/themes";
-import React from "react";
-import IssueStatusBadge from "../components/IssueStatusBadge";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
 import IssuesActions from "./IssuesActions";
+
 const LoadingIssuePage = () => {
   const issues = [1, 2, 3, 4, 5];
   return (
