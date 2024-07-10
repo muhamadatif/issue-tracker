@@ -14,7 +14,6 @@ const IssueDetailPage = async ({ params }: { params: { id: string } }) => {
       id: +params.id,
     },
   });
-
   if (!issue) notFound();
   return (
     <div>
