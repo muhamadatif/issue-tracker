@@ -63,6 +63,8 @@ const NavBar = () => {
                     size="2"
                     radius="full"
                     className="cursor-pointer"
+                    //this property is to ensure that the avatar is shown
+                    referrerPolicy="no-referrer"
                   />
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Content>
