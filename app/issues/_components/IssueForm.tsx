@@ -1,24 +1,21 @@
 // Beacuse we interacting with  a form which happen on the browser we need to use use client
 "use client";
 
-import { Button, Callout, Text, TextField } from "@radix-ui/themes";
-import dynamic from "next/dynamic";
-import { useForm, Controller } from "react-hook-form";
+import ErrorMessage from "@/app/components/ErrorMessage";
+import Spinner from "@/app/components/Spinner";
+import { IssueSchema } from "@/app/ValidationSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Issue } from "@prisma/client";
+import { Button, Callout, TextField } from "@radix-ui/themes";
 import axios from "axios";
 import "easymde/dist/easymde.min.css";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { IssueSchema } from "@/app/ValidationSchema";
+import { Controller, useForm } from "react-hook-form";
+import SimpleMDE from "react-simplemde-editor";
 import { z } from "zod";
-import ErrorMessage from "@/app/components/ErrorMessage";
-import Spinner from "@/app/components/Spinner";
-import { Issue } from "@prisma/client";
 
 // The SimpleMDE component is a client component and initialy this page is rendered on the server so we used dynamic loading to tell next not render this component on the server
-const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
-  ssr: false,
-});
 
 // zod define the type of the form fields based on the schema
 type IssueFormData = z.infer<typeof IssueSchema>;
