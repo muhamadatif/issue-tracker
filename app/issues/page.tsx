@@ -43,4 +43,6 @@ const IssuesPage = async () => {
   );
 };
 
+// This page is static page render it's content when deployment so it won't change its content even if we update the data
+export const dynamic = "force-dynamic";
 export default IssuesPage;

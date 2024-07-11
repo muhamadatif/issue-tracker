@@ -9,7 +9,7 @@ import "easymde/dist/easymde.min.css";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { IssueSchema } from "@/app/validationSchema";
+import { IssueSchema } from "@/app/ValidationSchema";
 import { z } from "zod";
 import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
@@ -42,6 +42,8 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
       if (issue) await axios.patch("/api/issues/" + issue.id, data);
       await axios.post("/api/issues", data);
       router.push("/issues");
+      //this is used to refresh the content of the page
+      router.refresh();
     } catch (error) {
       setIsSubmitting(false);
       setError("An unexpected error occured.");
