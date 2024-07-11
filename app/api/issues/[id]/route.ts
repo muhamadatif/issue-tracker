@@ -1,4 +1,4 @@
-import { IssueSchema } from "@/app/ValidationSchema";
+import { IssueSchema } from "@/app/validationSchema";
 import prisma from "@/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -12,6 +12,9 @@ export async function PATCH(
 ) {
   const body = await request.json();
   const validation = IssueSchema.safeParse(body);
+
+  console.log(IssueSchema, validation);
+
   if (!validation.success)
     return NextResponse.json(validation.error.format(), { status: 404 });
 

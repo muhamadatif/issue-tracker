@@ -9,7 +9,7 @@ import "easymde/dist/easymde.min.css";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { IssueSchema } from "@/app/ValidationSchema";
+import { IssueSchema } from "@/app/validationSchema";
 import { z } from "zod";
 import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
@@ -39,6 +39,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
   const onSubmit = handleSubmit(async (data) => {
     try {
       setIsSubmitting(true);
+      if (issue) await axios.patch("/api/issues/" + issue.id, data);
       await axios.post("/api/issues", data);
       router.push("/issues");
     } catch (error) {
@@ -73,7 +74,8 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
         {<ErrorMessage>{errors.description?.message}</ErrorMessage>}
 
         <Button disabled={isSubmitting}>
-          Submit New Issue {isSubmitting && <Spinner />}
+          {issue ? "Update Issue" : "Submit New Issue"}{" "}
+          {isSubmitting && <Spinner />}
         </Button>
       </form>
     </div>
