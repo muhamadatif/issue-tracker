@@ -1,11 +1,6 @@
 // We need to access the browser api trhough the usePathname() so we need to make this component a client component
 "use client";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import React from "react";
-import { AiFillBug } from "react-icons/ai";
-import classNames from "classnames";
-import { useSession } from "next-auth/react";
+import { Skeleton } from "@/app/components";
 import {
   Avatar,
   Box,
@@ -14,6 +9,11 @@ import {
   Flex,
   Text,
 } from "@radix-ui/themes";
+import classNames from "classnames";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { AiFillBug } from "react-icons/ai";
 const NavBar = () => {
   return (
     <nav className="border-b mb-5 px-5 py-3">
@@ -66,7 +66,7 @@ const NavLinks = () => {
 
 const AuthStatus = () => {
   const { status, data: session } = useSession();
-  if (status === "loading") return null;
+  if (status === "loading") return <Skeleton width="3rem" />;
   if (status === "unauthenticated")
     return (
       <Link href="/api/auth/signin" className="nav-link">
