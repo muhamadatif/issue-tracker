@@ -5,6 +5,7 @@ import { IssueStatusBadge, Link } from "@/app/components";
 import IssuesActions from "./IssuesActions";
 const IssuesPage = async () => {
   const issues = await prisma.issue.findMany();
+
   return (
     <div>
       <IssuesActions />

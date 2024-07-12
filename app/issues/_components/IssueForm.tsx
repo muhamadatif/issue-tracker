@@ -5,7 +5,6 @@ import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
 import { IssueSchema } from "@/app/ValidationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Issue } from "@prisma/client";
 import { Button, Callout, TextField } from "@radix-ui/themes";
 import axios from "axios";
 import "easymde/dist/easymde.min.css";
@@ -14,6 +13,7 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import SimpleMDE from "react-simplemde-editor";
 import { z } from "zod";
+import { Issue } from "@prisma/client";
 
 // The SimpleMDE component is a client component and initialy this page is rendered on the server so we used dynamic loading to tell next not render this component on the server
 
@@ -37,8 +37,11 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
     try {
       setIsSubmitting(true);
       if (issue) await axios.patch("/api/issues/" + issue.id, data);
-      await axios.post("/api/issues", data);
-      router.push("/issues/push");
+      else {
+        await axios.post("/api/issues", data);
+        router.push("/issues/list");
+      }
+      router.push("/issues/list");
       //this is used to refresh the content of the page
       router.refresh();
     } catch (error) {

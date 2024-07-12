@@ -13,6 +13,7 @@ CREATE TABLE `accounts` (
     `id_token` TEXT NULL,
     `session_state` VARCHAR(191) NULL,
 
+    INDEX `accounts_user_id_fkey`(`user_id`),
     UNIQUE INDEX `accounts_provider_provider_account_id_key`(`provider`, `provider_account_id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -25,6 +26,7 @@ CREATE TABLE `sessions` (
     `expires` DATETIME(3) NOT NULL,
 
     UNIQUE INDEX `sessions_session_token_key`(`session_token`),
+    INDEX `sessions_user_id_fkey`(`user_id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -47,6 +49,18 @@ CREATE TABLE `verificationtokens` (
     `expires` DATETIME(3) NOT NULL,
 
     UNIQUE INDEX `verificationtokens_identifier_token_key`(`identifier`, `token`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `issue` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `title` VARCHAR(255) NOT NULL,
+    `description` TEXT NOT NULL,
+    `status` ENUM('OPEN', 'IN_PROGRESS', 'CLOSED') NOT NULL DEFAULT 'OPEN',
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
+
+    PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
