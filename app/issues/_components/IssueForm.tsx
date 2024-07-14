@@ -3,7 +3,7 @@
 
 import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
-import { IssueSchema } from "@/app/ValidationSchema";
+import { issueSchema } from "@/app/ValidationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Callout, TextField } from "@radix-ui/themes";
 import axios from "axios";
@@ -18,7 +18,7 @@ import { Issue } from "@prisma/client";
 // The SimpleMDE component is a client component and initialy this page is rendered on the server so we used dynamic loading to tell next not render this component on the server
 
 // zod define the type of the form fields based on the schema
-type IssueFormData = z.infer<typeof IssueSchema>;
+type IssueFormData = z.infer<typeof issueSchema>;
 
 const IssueForm = ({ issue }: { issue?: Issue }) => {
   const router = useRouter();
@@ -28,7 +28,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
     handleSubmit,
     formState: { errors },
   } = useForm<IssueFormData>({
-    resolver: zodResolver(IssueSchema),
+    resolver: zodResolver(issueSchema),
   });
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
