@@ -8,12 +8,12 @@ import { getServerSession } from "next-auth";
 import authOptions from "@/app/auth/authOptions";
 import AssigneeSelect from "./AssigneeSelect";
 
-// interface Props {
-//   params: { id: string };
-// }
+interface Props {
+  params: { id: string };
+}
 
 //sm in radix equal to md in tailwind
-const IssueDetailPage = async ({ params }: { params: { id: string } }) => {
+const IssueDetailPage = async ({ params }: Props) => {
   const session = await getServerSession(authOptions);
   const issue = await prisma.issue.findUnique({
     where: {
@@ -44,5 +44,17 @@ const IssueDetailPage = async ({ params }: { params: { id: string } }) => {
     </Grid>
   );
 };
+
+export async function generateMetadata({ params }: Props) {
+  const issue = await prisma.issue.findUnique({
+    where: {
+      id: +params.id,
+    },
+  });
+  return {
+    title: issue?.title,
+    description: "Details of issue" + issue?.id,
+  };
+}
 
 export default IssueDetailPage;

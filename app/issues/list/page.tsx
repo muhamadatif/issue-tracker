@@ -4,6 +4,7 @@ import { Status } from "@prisma/client";
 import IssuesActions from "./IssuesActions";
 import IssueTable, { columnsNames, IssueQuery } from "./IssueTable";
 import { Flex } from "@radix-ui/themes";
+import { Metadata } from "next";
 
 // searchpParams is automatically passed as a props to the page component
 interface Props {
@@ -51,3 +52,8 @@ const IssuesPage = async ({ searchParams }: Props) => {
 // This page is static page render it's content when deployment so it won't change its content even if we update the data
 export const dynamic = "force-dynamic";
 export default IssuesPage;
+
+export const metadata: Metadata = {
+  title: "Issue Tracker - Issue List",
+  description: "View all project issues",
+};
