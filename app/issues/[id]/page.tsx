@@ -7,19 +7,28 @@ import DeleteIssueButton from "./DeleteIssueButton";
 import { getServerSession } from "next-auth";
 import authOptions from "@/app/auth/authOptions";
 import AssigneeSelect from "./AssigneeSelect";
+import { cache } from "react";
 
 interface Props {
   params: { id: string };
 }
 
+// We want to fetch user from the database twice for the details and for the metadata
+// So intiate this function and then used it to get the details of the issue and next stored it in the cache
+// In the second call next won't send another request to the database it will only get the data from the cache
+
+const fetchUser = cache((issueId: number) =>
+  prisma.issue.findUnique({
+    where: {
+      id: issueId,
+    },
+  })
+);
+
 //sm in radix equal to md in tailwind
 const IssueDetailPage = async ({ params }: Props) => {
   const session = await getServerSession(authOptions);
-  const issue = await prisma.issue.findUnique({
-    where: {
-      id: +params.id,
-    },
-  });
+  const issue = await fetchUser(+params.id);
   if (!issue) notFound();
   return (
     <Grid
@@ -46,11 +55,7 @@ const IssueDetailPage = async ({ params }: Props) => {
 };
 
 export async function generateMetadata({ params }: Props) {
-  const issue = await prisma.issue.findUnique({
-    where: {
-      id: +params.id,
-    },
-  });
+  const issue = await fetchUser(+params.id);
   return {
     title: issue?.title,
     description: "Details of issue" + issue?.id,
